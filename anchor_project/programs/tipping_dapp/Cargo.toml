@@ -1,7 +1,7 @@
 [package]
 name = "tipping_dapp"
 version = "0.1.0"
-description = "Created with Anchor"
+description = "Created with Anchor by Olushola O."
 edition = "2021"
 
 [lib]

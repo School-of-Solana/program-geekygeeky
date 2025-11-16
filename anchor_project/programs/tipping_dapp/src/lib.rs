@@ -10,6 +10,7 @@ declare_id!("2vWCcBBsaLgEituJTJnvADGGQamSMqGakos2fPAfdrYk");
 
 #[program]
 pub mod anchor_project {
+
     use super::*;
 
     pub fn initialize_platform(ctx: Context<InitializePlatform>) -> Result<()> {
@@ -18,5 +19,9 @@ pub mod anchor_project {
 
     pub fn create_profile(ctx: Context<CreateProfile>, username: String) -> Result<()> {
         create_profile::create(ctx, username)
+    }
+
+    pub fn update_username(ctx: Context<UpdateUsername>, username: String) -> Result<()> {
+        update_username::update(ctx, username)
     }
 }
