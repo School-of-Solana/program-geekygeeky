@@ -6,3 +6,6 @@ pub mod create_profile;
 
 pub use update_username::*;
 pub mod update_username;
+
+pub mod send_sol_tip;
+pub use send_sol_tip::*;

@@ -24,4 +24,8 @@ pub mod anchor_project {
     pub fn update_username(ctx: Context<UpdateUsername>, username: String) -> Result<()> {
         update_username::update(ctx, username)
     }
+
+    pub fn send_sol_tip(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result<()> {
+        tip_sol(ctx, amount, message)
+    }
 }
