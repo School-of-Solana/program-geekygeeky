@@ -1,16 +1,18 @@
 use anchor_lang::prelude::*;
 
-declare_id!("8tLF26375xiEFZkyDFSkvkfFeEYmeADwCHDh7up6Uubj");
+pub mod state;
+pub mod errors;
+pub mod instructions;
+
+use instructions::*;
+declare_id!("2vWCcBBsaLgEituJTJnvADGGQamSMqGakos2fPAfdrYk");
+
 
 #[program]
 pub mod anchor_project {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
-        Ok(())
+    pub fn initialize_platform(ctx: Context<InitializePlatform>) -> Result<()> {
+        instructions::initialize_platform::handler(ctx)
     }
 }
-
-#[derive(Accounts)]
-pub struct Initialize {}
