@@ -28,4 +28,8 @@ pub mod anchor_project {
     pub fn send_sol_tip(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result<()> {
         tip_sol(ctx, amount, message)
     }
+
+    pub fn send_spl_tip(ctx: Context<SendSplTip>, amount: u64, message: String) -> Result<()> {
+        tip_spl(ctx, amount, message)
+    }
 }

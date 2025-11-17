@@ -9,3 +9,6 @@ pub mod update_username;
 
 pub mod send_sol_tip;
 pub use send_sol_tip::*;
+
+pub mod send_spl_tip;
+pub use send_spl_tip::*;
