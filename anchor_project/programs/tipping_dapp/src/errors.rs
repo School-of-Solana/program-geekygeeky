@@ -11,6 +11,9 @@ pub enum TippingError {
     #[msg("Profile already exists")]
     ProfileExists,
 
+    #[msg("Recipient does not exist")]
+    ProfileNotExists,
+
     #[msg("Tip stats already exist")]
     TipStatsExists,
 
@@ -19,4 +22,7 @@ pub enum TippingError {
 
     #[msg("Invalid SPL token mint")]
     InvalidMint,
+
+    #[msg("Insufficient lamports")]
+    InsufficientLamports,
 }
