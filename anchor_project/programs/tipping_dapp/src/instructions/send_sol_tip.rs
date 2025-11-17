@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 
 pub fn tip_sol(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result<()> {
     require!(
-        message.len() > TipStats::MAX_MESSAGE,
+        message.len() <= TipStats::MAX_MESSAGE,
         TippingError::MessageTooLong
     );
 
@@ -21,6 +21,13 @@ pub fn tip_sol(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result
     // Transfer SOL
     let tipper = ctx.accounts.tipper.to_account_info();
     let recipient = ctx.accounts.recipient.to_account_info();
+
+    msg!("Balance: {}", **tipper.try_borrow_lamports()?);
+
+    require!(
+        **tipper.try_borrow_lamports()? > amount,
+        TippingError::InsufficientLamports
+    );
 
     **tipper.try_borrow_mut_lamports()? -= amount;
     **recipient.try_borrow_mut_lamports()? += amount;
