@@ -11,3 +11,7 @@ pub struct TipStats {
     pub last_message: String,
     pub bump: u8,
 }
+
+impl TipStats {
+    pub const MAX_MESSAGE: usize = 80;
+}
