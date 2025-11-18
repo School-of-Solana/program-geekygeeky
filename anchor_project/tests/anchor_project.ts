@@ -9,6 +9,7 @@ import {
   mintTo,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import { BN } from "bn.js";
 
 
 
@@ -145,16 +146,13 @@ describe("tipping_dapp", () => {
   });
 
   it("create_profile - fail username too long", async () => {
-    const longName = "geeky".repeat(11);
-    // const longName = "geeky".repeat(5);
+    const longName = "geeky".repeat(5);
 
     try {
       await program.methods
         .createProfile(longName)
         .accounts({
           user: anon.publicKey,
-          // profile: user1ProfilePda,
-          // stats: user1StatsPda,
           splMint: usdcMint,
         })
         .signers([anon])
@@ -197,9 +195,9 @@ describe("tipping_dapp", () => {
     );
   });
 
-  // ---------------------------------------------------------------------
+  // ------------------------------------------
   // Test case (3) --> send_sol_tip
-  // ---------------------------------------------------------------------
+  // ------------------------------------------
   it("send_sol_tip - success", async () => {
     const amount = 0.1 * anchor.web3.LAMPORTS_PER_SOL;
 
@@ -215,6 +213,8 @@ describe("tipping_dapp", () => {
       .rpc();
 
     const stats = await program.account.tipStats.fetch(user2StatsPda);
+    // const lamports = new BN(anchor.web3.LAMPORTS_PER_SOL);
+    // console.log('USDC mint Balance for ackee: ', stats.totalSolReceived.div(lamports))
     assert.equal(stats.totalSolReceived.toNumber(), amount);
   });
 
@@ -238,6 +238,56 @@ describe("tipping_dapp", () => {
       assert.include(err.toString(), "Insufficient lamports");
     }
   });
+
+  // --------------------------------------------
+  // Test case (4) --> send_spl_tip
+  // --------------------------------------------
+  it("send_spl_tip - success", async () => {
+    await program.methods
+      .sendSplTip(new anchor.BN(50), "here are some tokens")
+      .accounts({
+        tipper: geeky.publicKey,
+        recipient: ackee.publicKey,
+        tipperAta: tipperUsdcAta.address,
+        recipientAta: recipientUsdcAta.address,
+        tokenMint: usdcMint,
+      })
+      .signers([geeky])
+      .rpc();
+
+    const stats = await program.account.tipStats.fetch(user2StatsPda);
+    console.log('USDC mint Balance for ackee: ', stats.totalSplReceived.toNumber())
+    assert.equal(stats.totalSplReceived.toNumber(), 50);
+  });
+
+  it("send_spl_tip - fail wrong mint", async () => {
+    try {
+      const mint = await createMint(
+        provider.connection,
+        admin.payer,
+        anon.publicKey,
+        anon.publicKey,
+        6
+      );
+      await program.methods
+        .sendSplTip(new anchor.BN(10), "wrong mint")
+        .accounts({
+          tipper: geeky.publicKey,
+          tipperAta: tipperUsdcAta.address,
+          recipientAta: recipientUsdcAta.address,
+          recipient: ackee.publicKey,
+          tokenMint: mint, // wrong mint
+        })
+        .signers([geeky])
+        .rpc();
+      assert.fail("Expected InvalidMint error");
+    } catch (err) {
+      console.log(err.toString())
+      assert.include(err.toString(), "Invalid SPL token mint");
+    }
+  });
+
+
 
 
 });
