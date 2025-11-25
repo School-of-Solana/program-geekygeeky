@@ -287,7 +287,4 @@ describe("tipping_dapp", () => {
     }
   });
 
-
-
-
 });
