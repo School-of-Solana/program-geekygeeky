@@ -1,8 +1,6 @@
 use crate::errors::TippingError;
 use crate::state::{global_state::GlobalState, tip_stats::TipStats};
-use anchor_lang::prelude::*;
-// use anchor_lang::{prelude::*, system_program};
-use anchor_lang::system_program;
+use anchor_lang::{prelude::*, system_program};
 
 pub fn tip_sol(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result<()> {
     require!(
@@ -24,16 +22,7 @@ pub fn tip_sol(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result
     let tipper = ctx.accounts.tipper.to_account_info();
     let recipient = ctx.accounts.recipient.to_account_info();
 
-    // msg!("Balance: {}", **tipper.try_borrow_lamports()?);
     msg!("amount: {}", amount);
-
-    // require!(
-    //     **tipper.try_borrow_mut_lamports()? > amount,
-    //     TippingError::InsufficientLamports
-    // );
-
-    // **tipper.try_borrow_mut_lamports()? -= amount;
-    // **recipient.try_borrow_mut_lamports()? += amount;
 
     let cpi_context = CpiContext::new(ctx.accounts.system_program.to_account_info(), system_program::Transfer{
         from: tipper,
@@ -48,6 +37,8 @@ pub fn tip_sol(ctx: Context<SendSolTip>, amount: u64, message: String) -> Result
     // Update global totals
     let global = &mut ctx.accounts.global_state;
     global.total_sol_tipped += amount;
+
+    msg!("Sent {} SOL to recipient.", amount);
 
     Ok(())
 }
