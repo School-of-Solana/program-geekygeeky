@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 
 pub fn update(ctx: Context<UpdateUsername>, new_name: String) -> Result<()> {
     require!(
-        new_name.len() > UserProfile::MAX_USERNAME,
+        new_name.len() <= UserProfile::MAX_USERNAME,
         TippingError::UsernameTooLong
     );
 
