@@ -9,7 +9,7 @@ This is the frontend for the decentralized **Tipping dApp** built on Solana. It 
 - Send SOL or SPL token tips with messages
 - View tipping stats
 
-The frontend is built with **Next.js 16**, **React**, and **Solana Wallet Adapter v2**.
+The frontend is built with **Next.js 16**, **React**, and **Solana Wallet Adapter**.
 
 ---
 
@@ -44,6 +44,40 @@ NEXT_PUBLIC_SOLANA_NETWORK=localnet
 NEXT_PUBLIC_LOCALNET_USDC_MINT=<generated_spl_token_address>
 NEXT_PUBLIC_DEVNET_USDC_MINT=4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU
 NEXT_PUBLIC_MAINNET_USDC_MINT=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+```
+### Local Setup
+
+Copy and paste admin private key array inside .env
+
+```.env
+ADMIN_PRIVATE_KEY=[12,34,...]
+```
+
+**Initialize platform**
+
+```bash
+# Navigate into frontend dir
+cd frontend
+# Run deploy script to initialize platform
+ts-node scripts/deploy.ts --local
+```
+
+**Setup local SPL token**
+
+```bash
+# Navigate into frontend dir
+cd frontend
+# Run usdcMint script to create mint for USDC
+ts-node scripts/usdcMint.ts
+```
+
+**Setup user token account and mint USDC**
+
+```bash
+# Navigate into frontend dir
+cd frontend
+# Run usdcMint script to create mint for USDC
+ts-node scripts/usdcMint.ts <replace_with_solana_address>
 ```
 
 ### **Running the Development Server**

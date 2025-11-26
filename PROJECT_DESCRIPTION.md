@@ -11,6 +11,7 @@
 ### Description
 
 This project is a decentralized **Tipping dApp** built on Solana using **Anchor**, **TypeScript tests**, and a **Next.js frontend**.
+This dApp demonstrates basic Solana program development concepts including PDAs, account creation, and state management.
 Users can create a profile, receive SOL or SPL token tips, and display their tipping statistics such as:
 
 * Total SOL received
@@ -38,7 +39,7 @@ The app showcases fundamental Solana concepts such as PDAs, cross-program invoca
   The program maintains a global PDA that counts total SOL and USDC tips across the platform.
 
 * **Dynamic Frontend:**
-  Built using Next.js 16 with the latest Solana Wallet Adapter v2.
+  Built using Next.js 16 with the latest Solana Wallet Adapter.
 
 * **TypeScript Tests:**
   Includes both **happy** and **unhappy** flows for every instruction.
@@ -193,6 +194,8 @@ The project includes full TypeScript tests under `/anchor_project/tests`.
 
 ### Test Coverage
 
+Comprehensive test suite covering all instructions with both successful operations and error conditions to ensure program security and reliability.
+
 **Happy Path Tests ✔** 
 
 * initialize_platform: initialize platform with global stats.
@@ -211,6 +214,7 @@ The project includes full TypeScript tests under `/anchor_project/tests`.
 ### Running Tests
 
 ```bash
+yarn install    # install dependencies
 anchor test
 ```
 
@@ -228,8 +232,7 @@ This runs:
 * The project uses **3 clean PDAs**, each for a specific role.
 * The tipping logic includes **full message support** and SPL mint validation.
 * All instructions are well-separated and follow Anchor best practices.
-* The frontend uses **Next.js App Router**, **Wallet Adapter v2**, and a clean structure.
-* Everything is deployable with minimal setup.
+* The frontend uses **Next.js App Router**, **Solana Wallet Adapter**, and a clean structure.
 
 ### Local Setup
 
